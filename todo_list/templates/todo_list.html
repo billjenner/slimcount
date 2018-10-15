@@ -1,0 +1,49 @@
+{% extends 'authenticate/base.html' %}
+
+{% block title %}To-Do list{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-info alert-dismissable" role="alert">
+            <button class="close" data-dismiss="alert">
+                <small>x</small>
+            </button>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if all_items %}
+<table class="table table-bordered">
+    {% for el in all_items %}
+        {% if el.completed %}
+            <tr class="table-secondary">
+                <td class="striker"><a href="{% url 'edit' el.id %}">{{ el.item }}</a></td>
+                <td>{{ el.item }}</td>
+                <td><a href="{% url 'uncross' el.id %}">UnCross</a></td>
+                <td><a href="{% url 'delete' el.id %}">Delete</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td><a href="{% url 'edit' el.id %}">{{ el.item }}</a></td>
+                <td>{{ el.item }}</td>
+                <td><a href="{% url 'cross_off' el.id %}">Cross Off</a></td>
+                <td><a href="{% url 'delete' el.id %}">Delete</a></td>
+            </tr>
+        {% endif %}
+
+    {% endfor %}
+</table>
+{% endif %}
+
+{% if all_items %}
+<ul>
+    {% for el in all_items %}
+    <li>{{ el.item }} | {{ el.completed }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}
